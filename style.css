@@ -1,0 +1,41 @@
+body {
+  background: #0f0f0f;
+  color: white;
+  font-family: Arial;
+}
+
+.app {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+}
+
+#chat {
+  height: 300px;
+  overflow-y: auto;
+  border: 1px solid #333;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.msg {
+  margin: 5px 0;
+}
+
+.input {
+  display: flex;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+  background: #1a1a1a;
+  border: none;
+  color: white;
+}
+
+button {
+  padding: 10px;
+  background: #00ff88;
+  border: none;
+}
