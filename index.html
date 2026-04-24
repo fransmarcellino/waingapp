@@ -2,23 +2,71 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>WAING</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WAING | Secure Communication</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
 <div class="app">
-  <h1>WAING 🔐</h1>
+  <header>
+    <h1>WAING 🔐</h1>
+    <p style="font-size: 0.8rem; color: #888;">End-to-End Encrypted</p>
+  </header>
 
-  <div id="chat"></div>
+  <div id="setupArea" class="setup-container">
+    <input type="password" id="roomPassword" placeholder="Masukkan Password Ruangan..." />
+    <button id="btnSetKey" onclick="setRoom()">Aktifkan Kunci</button>
+    <p id="statusLabel" style="font-size: 0.7rem; margin-top: 5px; color: #ffcc00;">Masukkan password untuk mulai chatting.</p>
+  </div>
+
+  <hr style="border: 0.5px solid #333; margin: 20px 0;">
+
+  <div id="chat">
+    </div>
 
   <div class="input">
-    <input id="messageInput" placeholder="Tulis pesan..." />
-    <button onclick="sendMessage()">Kirim</button>
+    <input id="messageInput" placeholder="Tulis pesan rahasia..." disabled />
+    <button id="btnSend" onclick="sendMessage()" disabled>Kirim</button>
   </div>
 </div>
 
 <script src="crypto.js"></script>
 <script src="app.js"></script>
+
+<script>
+  // Fungsi tambahan untuk UI di Index
+  async function setRoom() {
+    const passInput = document.getElementById("roomPassword");
+    const status = document.getElementById("statusLabel");
+    const msgInput = document.getElementById("messageInput");
+    const btnSend = document.getElementById("btnSend");
+
+    if (passInput.value.length < 4) {
+      alert("Password terlalu pendek!");
+      return;
+    }
+
+    try {
+      // Memanggil fungsi dari crypto.js yang baru
+      await deriveKeyFromPassword(passInput.value);
+      
+      // Update UI jika berhasil
+      status.innerText = "✅ Kunci Aktif: Ruangan Terenkripsi";
+      status.style.color = "#00ff88";
+      passInput.disabled = true;
+      document.getElementById("btnSetKey").disabled = true;
+      
+      // Aktifkan input chat
+      msgInput.disabled = false;
+      btnSend.disabled = false;
+      msgInput.focus();
+    } catch (e) {
+      console.error(e);
+      alert("Gagal mengaktifkan kunci.");
+    }
+  }
+</script>
+
 </body>
 </html>
